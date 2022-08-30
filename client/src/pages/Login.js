@@ -1,10 +1,37 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Form, Input, Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import axios from 'axios';
+import { showLoading, hideLoading } from '../redux/alertsReducer';
 
 function Login() {
-  const onFinish = (values) => {
-    console.log('Received values', values);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.alerts);
+
+  const onFinish = async (values) => {
+    try {
+      dispatch(showLoading());
+
+      const response = await axios.post('/api/users/login', values);
+
+      if (response.data.success) {
+        toast.success(response.data.message);
+        localStorage.setItem('token', response.data.token);
+
+        toast('Redirecting to home page');
+        navigate('/');
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log('Login - error', error);
+      toast.error('Something went wrong');
+    } finally {
+      dispatch(hideLoading());
+    }
   };
 
   return (
