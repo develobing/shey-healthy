@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { showLoading, hideLoading } from '../redux/alertsReducer';
+import { showLoading, hideLoading } from '../redux/alertsSlice';
+import Layout from '../components/Layout';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -19,8 +20,6 @@ const Home = () => {
           },
         }
       );
-
-      console.log('response.data', response.data);
     } catch (error) {
       console.log('Home - error', error);
     } finally {
@@ -32,7 +31,11 @@ const Home = () => {
     getData();
   }, []);
 
-  return <div>Home</div>;
+  return (
+    <Layout>
+      <h1>Home page</h1>
+    </Layout>
+  );
 };
 
 export default Home;

@@ -4,7 +4,7 @@ import { Form, Input, Button } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
-import { showLoading, hideLoading } from '../redux/alertsReducer';
+import { showLoading, hideLoading } from '../redux/alertsSlice';
 
 function Login() {
   const navigate = useNavigate();

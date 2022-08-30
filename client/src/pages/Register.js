@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Form, Input, Button } from 'antd';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { showLoading, hideLoading } from '../redux/alertsReducer';
+import { showLoading, hideLoading } from '../redux/alertsSlice';
 
 function Register() {
   const navigate = useNavigate();
