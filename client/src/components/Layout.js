@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Badge } from 'antd';
 import '../layout.css';
 
 const Layout = ({ children }) => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.user);
   const [collapsed, SetCollapsed] = useState(false);
@@ -30,21 +32,39 @@ const Layout = ({ children }) => {
       path: '/profile',
       icon: 'ri-profile-line',
     },
+  ];
+
+  const adminMenus = [
     {
-      name: 'Logout',
-      path: '/logout',
-      icon: 'ri-logout-box-r-line',
+      name: 'Home',
+      path: '/',
+      icon: 'ri-home-line',
+    },
+    {
+      name: 'Users',
+      path: '/users',
+      icon: 'ri-user-line',
+    },
+    {
+      name: 'Doctors',
+      path: '/doctors',
+      icon: 'ri-user-star-line',
+    },
+    {
+      name: 'Profile',
+      path: '/profile',
+      icon: 'ri-profile-line',
     },
   ];
 
-  const menuToBeRendered = userMenus;
+  const menuToBeRendered = user?.isAdmin ? adminMenus : userMenus;
 
   return (
     <div className="main">
       <div className="d-flex layout">
         <div className={collapsed ? 'collapsed-sidebar' : 'sidebar'}>
           <div className="sidebar-header">
-            <h1>SH</h1>
+            <h1 className="logo">SH</h1>
           </div>
 
           <div className="menu">
@@ -63,6 +83,17 @@ const Layout = ({ children }) => {
                 </div>
               );
             })}
+
+            <div
+              className="d-flex menu-item"
+              onClick={() => {
+                localStorage.clear();
+                navigate('/login');
+              }}
+            >
+              <i className="ri-logout-box-line"></i>
+              {!collapsed && <Link to="/loging">Logout</Link>}
+            </div>
           </div>
         </div>
 
@@ -81,7 +112,10 @@ const Layout = ({ children }) => {
             )}
 
             <div className="d-flex align-items-center px-4">
-              <i className="ri-notification-line header-action-icon px-3"></i>
+              <Badge count={user?.unseenNotifications?.length} className="mx-3">
+                <i className="ri-notification-line header-action-icon"></i>
+              </Badge>
+
               <Link className="anchor" to="/profile">
                 {user?.name}
               </Link>

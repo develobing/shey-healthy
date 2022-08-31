@@ -11,7 +11,8 @@ input {
   border-radius: 2px !important;
 }
 
-input:focus {
+input:focus,
+.ant-picker {
   outline: none !important;
   box-shadow: none !important;
   border: 1px solid gray !important;
@@ -26,6 +27,16 @@ label {
   margin: 10px 0 !important;
 }
 
+.ant-picker-input input {
+  border: none !important;
+}
+
+.ant-picker {
+  height: 40px;
+  border: 1px solid rgba(128, 128, 128, 0.528) !important;
+  border-radius: 2px !important;
+}
+
 .primary-button {
   width: 100% !important;
   height: 40px !important;
@@ -34,6 +45,7 @@ label {
   color: white !important;
   font-size: 16px !important;
   text-transform: uppercase;
+  width: max-content !important;
 }
 
 .anchor {
@@ -68,8 +80,9 @@ label {
 }
 
 .card-title {
-  font-size: 1.5rem;
+  font-size: 22px;
   font-weight: bold;
+  color: rgba(0, 0, 0, 0.75);
 }
 
 .normal-text {

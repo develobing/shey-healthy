@@ -1,8 +1,9 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/userModel');
 const authMiddleware = require('../middlewares/authMiddleware');
+const User = require('../models/userModel');
+const Doctor = require('../models/doctorModel');
 
 const router = express.Router();
 
@@ -70,7 +71,7 @@ router.post('/login', async (req, res) => {
 
 router.post('/get-user-info-by-id', authMiddleware, async (req, res) => {
   try {
-    const user = await User.findById(req.userId);
+    const user = await User.findById(req.userId).select('-password');
 
     if (!user) {
       return res
@@ -79,10 +80,7 @@ router.post('/get-user-info-by-id', authMiddleware, async (req, res) => {
     } else {
       res.status(200).send({
         success: true,
-        data: {
-          name: user.name,
-          email: user.email,
-        },
+        data: { ...user?._doc },
       });
     }
   } catch (error) {
@@ -91,6 +89,41 @@ router.post('/get-user-info-by-id', authMiddleware, async (req, res) => {
     res
       .status(500)
       .send({ message: 'Error getting user info', success: false, error });
+  }
+});
+
+router.post('/apply-doctor-account', authMiddleware, async (req, res) => {
+  try {
+    const newDoctor = new Doctor({ ...req.body, status: 'pending' });
+    await newDoctor.save();
+
+    const adminUser = await User.findOne({ isAdmin: true });
+
+    const unseenNotifications = adminUser.unseenNotifications;
+    unseenNotifications.push({
+      type: 'new-doctor-request',
+      message: `${newDoctor.firstName} ${newDoctor.lastName} has applied for a doctor account`,
+      data: {
+        doctorId: newDoctor._id,
+        name: `${newDoctor.firstName} ${newDoctor.lastName}`,
+      },
+      onClickPath: '/admin/doctors',
+    });
+
+    await adminUser.save();
+
+    res.status(200).send({
+      message: 'Doctor account applied successfully',
+      success: true,
+    });
+  } catch (error) {
+    console.log('/apply-doctor-account - error', error);
+
+    res.status(500).send({
+      message: 'Error applying doctor account',
+      success: false,
+      error,
+    });
   }
 });
 
