@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Badge } from 'antd';
 import '../layout.css';
+import { setUser } from '../redux/userSlice';
 
 const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.user);
   const [collapsed, SetCollapsed] = useState(false);
@@ -88,11 +90,12 @@ const Layout = ({ children }) => {
               className="d-flex menu-item"
               onClick={() => {
                 localStorage.clear();
+                dispatch(setUser(null));
                 navigate('/login');
               }}
             >
               <i className="ri-logout-box-line"></i>
-              {!collapsed && <Link to="/loging">Logout</Link>}
+              {!collapsed && <Link to="/login">Logout</Link>}
             </div>
           </div>
         </div>
@@ -112,7 +115,11 @@ const Layout = ({ children }) => {
             )}
 
             <div className="d-flex align-items-center px-4">
-              <Badge count={user?.unseenNotifications?.length} className="mx-3">
+              <Badge
+                count={user?.unseenNotifications?.length}
+                className="mx-3"
+                onClick={() => navigate('/notifications')}
+              >
                 <i className="ri-notification-line header-action-icon"></i>
               </Badge>
 

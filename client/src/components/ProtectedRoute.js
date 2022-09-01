@@ -46,7 +46,7 @@ const ProtectedRoute = (props) => {
     if (!user) {
       getUser();
     }
-  }, []);
+  }, [user]);
 
   if (localStorage.getItem('token')) {
     return props.children;

@@ -127,4 +127,57 @@ router.post('/apply-doctor-account', authMiddleware, async (req, res) => {
   }
 });
 
+router.post(
+  '/mark-all-notifications-as-seen',
+  authMiddleware,
+  async (req, res) => {
+    try {
+      const user = await User.findOne({ _id: req.userId }).select('-password');
+      const { seenNotifications, unseenNotifications } = user;
+      user.seenNotifications = [...seenNotifications, ...unseenNotifications];
+      user.unseenNotifications = [];
+
+      await user.save();
+
+      res.status(200).send({
+        success: true,
+        message: 'All notifications marked as seen',
+        data: user,
+      });
+    } catch (error) {
+      console.log('/mark-all-notifications-as-seen - error', error);
+
+      res.status(500).send({
+        message: 'Error marking notifications as seen',
+        success: false,
+        error,
+      });
+    }
+  }
+);
+
+router.post('/delete-all-notifications', authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.userId }).select('-password');
+    user.seenNotifications = [];
+    user.unseenNotifications = [];
+
+    await user.save();
+
+    res.status(200).send({
+      success: true,
+      message: 'Delete all notifications',
+      data: user,
+    });
+  } catch (error) {
+    console.log('/delete-all-notifications - error', error);
+
+    res.status(500).send({
+      message: 'Error deleting notifications',
+      success: false,
+      error,
+    });
+  }
+});
+
 module.exports = router;

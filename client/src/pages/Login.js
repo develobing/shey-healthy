@@ -52,7 +52,7 @@ function Login() {
             Login
           </Button>
 
-          <Link to="/register" className="anchor mt-2">
+          <Link to="/register" className="anchor mt-2 mx-2">
             Click here to Register
           </Link>
         </Form>

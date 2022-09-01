@@ -54,7 +54,7 @@ function Register() {
             Register
           </Button>
 
-          <Link to="/login" className="anchor mt-2">
+          <Link to="/login" className="anchor mt-2 mx-2">
             Click here to Login
           </Link>
         </Form>
