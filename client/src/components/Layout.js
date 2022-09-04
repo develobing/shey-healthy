@@ -49,7 +49,7 @@ const Layout = ({ children }) => {
     },
     {
       name: 'Profile',
-      path: '/profile',
+      path: `/doctor/profile/${user?._id}`,
       icon: 'ri-profile-line',
     },
   ];
@@ -77,11 +77,20 @@ const Layout = ({ children }) => {
     },
   ];
 
+  const role = user?.isAdmin
+    ? 'Admin'
+    : user?.isDoctor
+    ? 'Doctor'
+    : !!user
+    ? 'User'
+    : null;
   const menuToBeRendered = user?.isAdmin
     ? adminMenus
     : user?.isDoctor
     ? doctorMenus
-    : userMenus;
+    : !!user
+    ? userMenus
+    : [];
 
   return (
     <div className="main">
@@ -89,6 +98,7 @@ const Layout = ({ children }) => {
         <div className={collapsed ? 'collapsed-sidebar' : 'sidebar'}>
           <div className="sidebar-header">
             <h1 className="logo">SH</h1>
+            {role && <h1 className="role">{role}</h1>}
           </div>
 
           <div className="menu">

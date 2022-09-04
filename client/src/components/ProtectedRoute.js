@@ -27,13 +27,15 @@ const ProtectedRoute = (props) => {
         }
       );
 
+      console.log('getUser() - response', response);
+
       if (response.data.success) {
         dispatch(setUser(response.data.data));
       } else {
         throw new Error('Failed to get user');
       }
     } catch (error) {
-      console.log('ProtectedRoute - error', error);
+      console.log('getUser() - error', error);
 
       localStorage.removeItem('token');
       navigate('/login');
