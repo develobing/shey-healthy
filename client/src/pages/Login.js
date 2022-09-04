@@ -12,6 +12,8 @@ function Login() {
   const { loading } = useSelector((state) => state.alerts);
 
   const onFinish = async (values) => {
+    console.log('onFinish() - values', values);
+
     try {
       dispatch(showLoading());
 
@@ -48,13 +50,18 @@ function Login() {
             <Input placeholder="Password" type="password" />
           </Form.Item>
 
-          <Button className="primary-button my-2" htmlType="submit">
-            Login
-          </Button>
+          <div className="d-flex flex-column">
+            <Button
+              className="primary-button my-2 full-width-button"
+              htmlType="submit"
+            >
+              Login
+            </Button>
 
-          <Link to="/register" className="anchor mt-2 mx-2">
-            Click here to Register
-          </Link>
+            <Link to="/register" className="anchor mt-2">
+              Click here to Register
+            </Link>
+          </div>
         </Form>
       </div>
     </div>

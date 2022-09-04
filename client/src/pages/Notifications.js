@@ -30,6 +30,8 @@ const Notifications = () => {
         }
       );
 
+      console.log('markAllAsSeen() - response', response);
+
       if (response.data.success) {
         toast.success(response.data.message);
         dispatch(setUser(response.data.data));

@@ -20,6 +20,8 @@ const Home = () => {
           },
         }
       );
+
+      console.log('getData() - response', response);
     } catch (error) {
       console.log('Home - error', error);
     } finally {

@@ -30,7 +30,7 @@ router.post('/register', async (req, res) => {
       .status(201)
       .send({ message: 'User created successfully', success: true });
   } catch (error) {
-    console.log('/register - error', error);
+    console.log('[POST] /register - error', error);
 
     res
       .status(500)
@@ -58,14 +58,12 @@ router.post('/login', async (req, res) => {
         expiresIn: '1d',
       });
 
-      console.log('token', token);
-
       res
         .status(200)
         .send({ message: 'Login successful', success: true, token });
     }
   } catch (error) {
-    console.log('/login - error', error);
+    console.log('[POST] /login - error', error);
   }
 });
 
@@ -84,7 +82,7 @@ router.post('/get-user-info-by-id', authMiddleware, async (req, res) => {
       });
     }
   } catch (error) {
-    console.log('/get-user-info-by-id - error', error);
+    console.log('[POST] /get-user-info-by-id - error', error);
 
     res
       .status(500)
@@ -117,7 +115,7 @@ router.post('/apply-doctor-account', authMiddleware, async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log('/apply-doctor-account - error', error);
+    console.log('[POST] /apply-doctor-account - error', error);
 
     res.status(500).send({
       message: 'Error applying doctor account',
@@ -145,7 +143,7 @@ router.post(
         data: user,
       });
     } catch (error) {
-      console.log('/mark-all-notifications-as-seen - error', error);
+      console.log('[POST] /mark-all-notifications-as-seen - error', error);
 
       res.status(500).send({
         message: 'Error marking notifications as seen',
@@ -170,7 +168,7 @@ router.post('/delete-all-notifications', authMiddleware, async (req, res) => {
       data: user,
     });
   } catch (error) {
-    console.log('/delete-all-notifications - error', error);
+    console.log('[POST] /delete-all-notifications - error', error);
 
     res.status(500).send({
       message: 'Error deleting notifications',

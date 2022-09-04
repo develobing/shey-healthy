@@ -12,6 +12,8 @@ function Register() {
   const { loading } = useSelector((state) => state.alerts);
 
   const onFinish = async (values) => {
+    console.log('onFinish() - values', values);
+
     try {
       dispatch(showLoading());
 
@@ -50,13 +52,18 @@ function Register() {
             <Input placeholder="Password" type="password" />
           </Form.Item>
 
-          <Button className="primary-button my-2" htmlType="submit">
-            Register
-          </Button>
+          <div className="d-flex flex-column">
+            <Button
+              className="primary-button my-2 full-width-button"
+              htmlType="submit"
+            >
+              Register
+            </Button>
 
-          <Link to="/login" className="anchor mt-2 mx-2">
-            Click here to Login
-          </Link>
+            <Link to="/login" className="anchor mt-2">
+              Click here to Login
+            </Link>
+          </div>
         </Form>
       </div>
     </div>

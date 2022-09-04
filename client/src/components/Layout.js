@@ -36,6 +36,24 @@ const Layout = ({ children }) => {
     },
   ];
 
+  const doctorMenus = [
+    {
+      name: 'Home',
+      path: '/',
+      icon: 'ri-home-line',
+    },
+    {
+      name: 'Appointments',
+      path: '/appointments',
+      icon: 'ri-file-list-line',
+    },
+    {
+      name: 'Profile',
+      path: '/profile',
+      icon: 'ri-profile-line',
+    },
+  ];
+
   const adminMenus = [
     {
       name: 'Home',
@@ -44,12 +62,12 @@ const Layout = ({ children }) => {
     },
     {
       name: 'Users',
-      path: '/users',
+      path: '/admin/users',
       icon: 'ri-user-line',
     },
     {
       name: 'Doctors',
-      path: '/doctors',
+      path: '/admin/doctors',
       icon: 'ri-user-star-line',
     },
     {
@@ -59,7 +77,11 @@ const Layout = ({ children }) => {
     },
   ];
 
-  const menuToBeRendered = user?.isAdmin ? adminMenus : userMenus;
+  const menuToBeRendered = user?.isAdmin
+    ? adminMenus
+    : user?.isDoctor
+    ? doctorMenus
+    : userMenus;
 
   return (
     <div className="main">

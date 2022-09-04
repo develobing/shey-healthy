@@ -15,7 +15,7 @@ const ApplyDoctor = () => {
   const { loading } = useSelector((state) => state.alerts);
 
   const onFinish = async (values) => {
-    console.log('values', values);
+    console.log('onFinish() - values', values);
 
     try {
       dispatch(showLoading());
