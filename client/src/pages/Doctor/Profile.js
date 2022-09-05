@@ -23,7 +23,7 @@ const Profile = () => {
       const response = await axios.post(
         '/api/doctors/get-doctor-info-by-user-id',
         {
-          userId: params?.doctorId,
+          userId: params?.userId,
         },
         {
           headers: {
@@ -59,12 +59,12 @@ const Profile = () => {
       const response = await axios.post(
         '/api/doctors/update-doctor-profile',
         {
-          userId: params?.doctorId,
-          timings: [
-            moment(values?.timings?.[0].format('HH:mm')),
-            moment(values?.timings?.[1].format('HH:mm')),
-          ],
           ...values,
+          userId: params?.userId,
+          timings: [
+            moment(values?.timings?.[0]).format('HH:mm'),
+            moment(values?.timings?.[1]).format('HH:mm'),
+          ],
         },
         {
           headers: {
@@ -93,7 +93,6 @@ const Profile = () => {
   return (
     <Layout>
       <h1 className="page-title">Profile</h1>
-
       <hr />
 
       {doctor && <DoctorForm initialValues={doctor} onFinish={onFinish} />}

@@ -1,27 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+import { Row, Col } from 'antd';
 import { showLoading, hideLoading } from '../redux/alertsSlice';
 import Layout from '../components/Layout';
+import Doctor from '../components/Doctor';
 
 const Home = () => {
   const dispatch = useDispatch();
 
-  const getData = async () => {
+  const [doctors, setDoctors] = useState([]);
+
+  const getApprovedDoctors = async () => {
     try {
       dispatch(showLoading());
 
-      const response = await axios.post(
-        `/api/users/get-user-info-by-id`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      );
+      const response = await axios.get(`/api/users/get-all-approved-doctors`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
 
-      console.log('getData() - response', response);
+      console.log('getApprovedDoctors() - response', response);
+
+      if (response.data.success) {
+        setDoctors(response.data.data);
+      }
     } catch (error) {
       console.log('Home - error', error);
     } finally {
@@ -30,12 +34,18 @@ const Home = () => {
   };
 
   useEffect(() => {
-    getData();
+    getApprovedDoctors();
   }, []);
 
   return (
     <Layout>
-      <h1>Home page</h1>
+      <Row gutter={20}>
+        {doctors.map((doctor) => (
+          <Col span={8} xs={24} sm={24} lg={8} key={doctor?._id}>
+            <Doctor doctor={doctor} />
+          </Col>
+        ))}
+      </Row>
     </Layout>
   );
 };

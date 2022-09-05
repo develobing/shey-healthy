@@ -41,6 +41,10 @@ const UsersList = () => {
       dataIndex: 'name',
     },
     {
+      title: 'Role',
+      dataIndex: 'role',
+    },
+    {
       title: 'Email',
       dataIndex: 'email',
     },
@@ -63,7 +67,7 @@ const UsersList = () => {
     <Layout>
       <h1 className="page-header">Users List</h1>
 
-      <Table columns={columns} dataSource={users} />
+      <Table columns={columns} dataSource={users} rowKey="_id" />
     </Layout>
   );
 };

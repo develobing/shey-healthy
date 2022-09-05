@@ -40,16 +40,25 @@ label {
 .primary-button {
   width: 100% !important;
   height: 40px !important;
-  background-color: #005555 !important;
-  border-color: #005555 !important;
-  color: white !important;
   font-size: 16px !important;
   text-transform: uppercase;
   width: max-content !important;
 }
 
+.primary-button:not(button[disabled]) {
+  background-color: #005555 !important;
+  border-color: #005555 !important;
+  color: white !important;
+}
+
 .full-width-button {
   width: 100% !important;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.75);
 }
 
 .anchor {
@@ -79,7 +88,7 @@ label {
 }
 
 .card {
-  box-shadow: 0 0 2px gray;
+  box-shadow: 0 0 2px rgb(133, 133, 133);
   border-radius: 0;
 }
 
@@ -91,6 +100,10 @@ label {
 
 .normal-text {
   font-size: 1rem;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 /* Authentication pages */

@@ -33,8 +33,16 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
+
+userSchema.virtual('role').get(function () {
+  if (this.isAdmin) return 'Admin';
+  if (this.isDoctor) return 'Doctor';
+  return 'User';
+});
 
 const userModel = mongoose.model('users', userSchema);
 

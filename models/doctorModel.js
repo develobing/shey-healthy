@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 
 const doctorSchema = new mongoose.Schema(
   {
-    userId: {
-      type: String,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: 'users',
     },
     firstName: {
       type: String,
@@ -58,8 +59,14 @@ const doctorSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
+
+doctorSchema.virtual('fullName').get(function () {
+  return `${this.firstName} ${this.lastName}`;
+});
 
 const doctorModel = mongoose.model('doctors', doctorSchema);
 

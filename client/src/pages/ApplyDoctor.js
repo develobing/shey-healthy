@@ -26,10 +26,10 @@ const ApplyDoctor = () => {
         {
           ...values,
           timings: [
-            moment(values?.timings?.[0].format('HH:mm')),
-            moment(values?.timings?.[1].format('HH:mm')),
+            moment(values?.timings?.[0], 'HH:mm'),
+            moment(values?.timings?.[1], 'HH:mm'),
           ],
-          userId: user._id,
+          user: user._id,
           email: user.email,
         },
         {

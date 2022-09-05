@@ -95,10 +95,7 @@ router.post('/apply-doctor-account', authMiddleware, async (req, res) => {
     const newDoctor = new Doctor({ ...req.body, status: 'pending' });
     await newDoctor.save();
 
-    const adminUser = await User.findOne({ isAdmin: true });
-
-    const unseenNotifications = adminUser.unseenNotifications;
-    unseenNotifications.push({
+    const newNotification = {
       type: 'new-doctor-request',
       message: `${newDoctor.firstName} ${newDoctor.lastName} has applied for a doctor account`,
       data: {
@@ -106,9 +103,14 @@ router.post('/apply-doctor-account', authMiddleware, async (req, res) => {
         name: `${newDoctor.firstName} ${newDoctor.lastName}`,
       },
       onClickPath: '/admin/doctors',
-    });
+    };
 
-    await adminUser.save();
+    await User.findOneAndUpdate(
+      { isAdmin: true },
+      {
+        $push: { unseenNotifications: newNotification },
+      }
+    );
 
     res.status(200).send({
       message: 'Doctor account applied successfully',
@@ -172,6 +174,26 @@ router.post('/delete-all-notifications', authMiddleware, async (req, res) => {
 
     res.status(500).send({
       message: 'Error deleting notifications',
+      success: false,
+      error,
+    });
+  }
+});
+
+router.get('/get-all-approved-doctors', authMiddleware, async (req, res) => {
+  try {
+    const doctors = await Doctor.find({ status: 'approved' });
+
+    res.status(200).send({
+      message: 'Approved doctors fetched successfully',
+      success: true,
+      data: doctors,
+    });
+  } catch (error) {
+    console.log('[GET] /get-all-approved-doctors - error', error);
+
+    res.status(500).send({
+      message: 'Error getting approved doctors list',
       success: false,
       error,
     });

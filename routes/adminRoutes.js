@@ -1,8 +1,9 @@
 const express = require('express');
-const router = express.Router();
 const User = require('../models/userModel');
 const Doctor = require('../models/doctorModel');
 const authMiddleware = require('../middlewares/authMiddleware');
+
+const router = express.Router();
 
 router.get('/get-all-doctors', authMiddleware, async (req, res) => {
   try {
@@ -47,10 +48,7 @@ router.post('/change-doctor-status', authMiddleware, async (req, res) => {
       status,
     });
 
-    const doctorUser = await User.findOne({ _id: userId });
-
-    const unseenNotifications = doctorUser.unseenNotifications;
-    unseenNotifications.push({
+    const newNotification = {
       type: 'new-doctor-request-changed',
       message: `Your doctor account has been ${status}`,
       data: {
@@ -58,11 +56,15 @@ router.post('/change-doctor-status', authMiddleware, async (req, res) => {
         name: `${doctor.firstName} ${doctor.lastName}`,
       },
       onClickPath: '/notifications',
-    });
+    };
 
-    doctorUser.isDoctor = status === 'approved' ? true : false;
-
-    await doctorUser.save();
+    await User.findOneAndUpdate(
+      { _id: userId },
+      {
+        isDoctor: status === 'approved' ? true : false,
+        $push: { unseenNotifications: newNotification },
+      }
+    );
 
     res.status(200).send({
       message: 'Doctor status changed successfully',

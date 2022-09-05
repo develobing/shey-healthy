@@ -50,7 +50,9 @@
 
 .collapsed-sidebar .sidebar-header {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .menu {
