@@ -43,6 +43,7 @@ const Appointments = () => {
     {
       title: 'ID',
       dataIndex: '_id',
+      responsive: ['md'],
     },
     {
       title: 'Doctor',
@@ -51,11 +52,12 @@ const Appointments = () => {
     },
     {
       title: 'Phone',
+      responsive: ['md'],
       render: (text, record) => <span>{record.doctor?.phoneNumber}</span>,
     },
     {
       title: 'Date & Time',
-      dataIndex: 'dateTime',
+      responsive: ['md'],
       render: (text, record) => (
         <span>{moment(record.dateTime).format('YYYY-MM-DD hh:mm')}</span>
       ),
@@ -63,12 +65,14 @@ const Appointments = () => {
     {
       title: 'Status',
       dataIndex: 'status',
+      responsive: ['md'],
     },
   ];
 
   return (
     <Layout>
-      <h1 className="page-header">Appointments</h1>
+      <h1 className="page-title">Appointments</h1>
+      <hr />
 
       <Table columns={columns} dataSource={appointments} rowKey="_id" />
     </Layout>

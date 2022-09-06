@@ -85,6 +85,7 @@ const Notifications = () => {
   return (
     <Layout>
       <h1 className="page-title">Notifications</h1>
+      <hr />
 
       <Tabs>
         <Tabs.TabPane tab="unseen" key={1}>
@@ -96,7 +97,7 @@ const Notifications = () => {
 
           {user?.unseenNotifications.map((notification, index) => (
             <div
-              className="card p-2"
+              className="card p-2 mt-2"
               onClick={() => navigate(notification.onClickPath)}
               key={index}
             >
@@ -113,7 +114,7 @@ const Notifications = () => {
           </div>
           {user?.seenNotifications.map((notification, index) => (
             <div
-              className="card p-2"
+              className="card p-2 mt-2"
               onClick={() => navigate(notification.onClickPath)}
               key={index}
             >

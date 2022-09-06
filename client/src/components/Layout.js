@@ -29,11 +29,6 @@ const Layout = ({ children }) => {
       path: '/apply-doctor',
       icon: 'ri-hospital-line',
     },
-    {
-      name: 'Profile',
-      path: '/profile',
-      icon: 'ri-profile-line',
-    },
   ];
 
   const doctorMenus = [
@@ -75,11 +70,6 @@ const Layout = ({ children }) => {
       path: '/admin/doctors',
       icon: 'ri-user-star-line',
     },
-    {
-      name: 'Profile',
-      path: '/profile',
-      icon: 'ri-profile-line',
-    },
   ];
 
   const role = user?.isAdmin
@@ -116,9 +106,10 @@ const Layout = ({ children }) => {
                     isActive && 'active-menu-item'
                   }`}
                   key={menu.path}
+                  onClick={() => navigate(menu.path)}
                 >
                   <i className={menu.icon}></i>
-                  {!collapsed && <Link to={menu.path}>{menu.name}</Link>}
+                  {!collapsed && <span>{menu.name}</span>}
                 </div>
               );
             })}
@@ -132,7 +123,7 @@ const Layout = ({ children }) => {
               }}
             >
               <i className="ri-logout-box-line"></i>
-              {!collapsed && <Link to="/login">Logout</Link>}
+              {!collapsed && <span>Logout</span>}
             </div>
           </div>
         </div>

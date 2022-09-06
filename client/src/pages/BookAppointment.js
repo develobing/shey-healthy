@@ -7,6 +7,7 @@ import { showLoading, hideLoading } from '../redux/alertsSlice';
 import Layout from '../components/Layout';
 import { Row, Col, DatePicker, TimePicker, Button } from 'antd';
 import moment from 'moment';
+import bookNowImage from '../assets/images/book-now.jpg';
 
 const BookAppointment = () => {
   const dispatch = useDispatch();
@@ -71,7 +72,7 @@ const BookAppointment = () => {
 
       if (response.data.success) {
         toast.success('Appointment booked successfully');
-        navigate('/home');
+        navigate('/appointments');
       } else {
         throw new Error(response.data.message);
       }
@@ -129,10 +130,30 @@ const BookAppointment = () => {
           </h1>
           <hr />
 
-          <Row>
+          <Row gutter={20} className="mt-1" align="middle">
             <Col span={12} sm={24} xs={24} lg={8}>
               <p className="normal-text">
                 <b>Timings:</b> {doctor?.timings[0]} - {doctor?.timings[1]}
+              </p>
+
+              <p className="card-text">
+                <b>Email:</b> {doctor?.email}
+              </p>
+
+              <p className="card-text">
+                <b>Phone Number:</b> {doctor?.phoneNumber}
+              </p>
+
+              <p className="card-text">
+                <b>Address:</b> {doctor?.address}
+              </p>
+
+              <p className="card-text">
+                <b>Fee per Visit:</b> {doctor?.feePerConsultation}
+              </p>
+
+              <p className="card-text">
+                <b>Website:</b> {doctor?.website}
               </p>
 
               <div className="d-flex flex-column mt-3">
@@ -143,6 +164,7 @@ const BookAppointment = () => {
                     setDate(moment(value).format('DD-MM-YYYY'));
                   }}
                 />
+
                 <TimePicker
                   format="HH:mm"
                   className="mt-3"
@@ -167,6 +189,10 @@ const BookAppointment = () => {
                   Book Now
                 </Button>
               </div>
+            </Col>
+
+            <Col span={12} sm={24} xs={24} lg={8}>
+              <img src={bookNowImage} alt="" width="100%" />
             </Col>
           </Row>
         </div>

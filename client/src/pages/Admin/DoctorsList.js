@@ -5,6 +5,7 @@ import Layout from '../../components/Layout';
 import { showLoading, hideLoading } from '../../redux/alertsSlice';
 import { Table } from 'antd';
 import toast from 'react-hot-toast';
+import moment from 'moment';
 
 const DoctorsList = () => {
   const dispatch = useDispatch();
@@ -85,6 +86,9 @@ const DoctorsList = () => {
     {
       title: 'Created At',
       dataIndex: 'createdAt',
+      render: (text, record) => (
+        <span>{moment(record.createdAt).format('YYYY-MM-DD hh:mm')}</span>
+      ),
     },
     {
       title: 'Status',
@@ -119,7 +123,8 @@ const DoctorsList = () => {
 
   return (
     <Layout>
-      <h1 className="page-header">Doctors List</h1>
+      <h1 className="page-title">Doctors List</h1>
+      <hr />
 
       <Table columns={columns} dataSource={doctors} rowKey="_id" />
     </Layout>
